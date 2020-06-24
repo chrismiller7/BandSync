@@ -256,7 +256,11 @@ div.roomSelectBackground
   </div>
 </div>
 
+<div id="roomcount" class="title">1 person in room</div>
+
 </div>
+
+
 
 <script>
 	var room = null;
@@ -423,6 +427,13 @@ function Connect()
 		{
 			UnselectButton();
 		}
+		else if (msg.cmd == "roomcount")
+		{
+			if (msg.roomcount == 1)
+				$("#roomcount").html("1 person in room");
+			else
+				$("#roomcount").html(msg.roomcount + " people in room");
+		}
 	};
 }
 
@@ -434,6 +445,9 @@ function SendRoomInfo()
 		ws.send(JSON.stringify({cmd:"selectroom", room:room}));
 	}
 }
+setInterval(function() {
+	ws.send(JSON.stringify({cmd:"roomcount"}));
+}	, 2000);
 
 var noSleep = new NoSleep();
 // Enable wake lock.

@@ -52,6 +52,11 @@ function OnConnection(wsclient, msg) {
         if (obj.cmd == "selectroom") {
             console.log('set room = ' + obj.room);
             wsclient.room = obj.room.toLowerCase();
+        } 
+        else if (obj.cmd == "roomcount") {
+            obj.roomcount = GetClientsInRoom(wsclient.room).length;
+            console.log(obj);
+            wsclient.send(JSON.stringify(obj));
         } else if (wsclient.room != null) {
             SendToAll(msg, wsclient);
         }
@@ -62,19 +67,31 @@ function OnClose(wsclient) {
     console.log('client closed');
 }
 
+
 function SendToAll(msg, wsclient) {
+    GetClientsInRoom(wsclient.room).forEach(function each(client) {
+        if (client != wsclient) {
+            client.send(msg);
+        }
+    });
+}
+
+function GetClientsInRoom(room)
+{
+    var arr = [];
     if (ws) {
         ws.clients.forEach(function each(client) {
-            if (client != wsclient && client.room == wsclient.room) {
-                client.send(msg);
+            if (client.readyState === WebSocket.OPEN && client.room == room) {
+                arr.push(client);
             }
         });
     }
     if (wss) {
         wss.clients.forEach(function each(client) {
-            if (client != wsclient && client.room == wsclient.room) {
-                client.send(msg);
+            if (client.readyState === WebSocket.OPEN && client.room == room) {
+                arr.push(client);
             }
         });
     }
+    return arr;
 }
