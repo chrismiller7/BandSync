@@ -1,0 +1,441 @@
+<html>
+<header>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="description" content="something should go here">
+	<title>BandSync</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src = "./NoSleep.js"></script>
+</header>
+
+<body>
+
+<style>
+
+body {
+	background:#333;
+}
+
+	@-webkit-keyframes bigAssButtonPulse {
+	  from { background-color: #749a02; -webkit-box-shadow: 0 0 25px #333; }
+	  50% { background-color: #91bd09; -webkit-box-shadow: 0 0 50px #91bd09; }
+	  to { background-color: #749a02; -webkit-box-shadow: 0 0 25px #333; }
+	}
+
+	@-webkit-keyframes greenPulse {
+	  from { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
+	  50% { background-color: #91bd09; -webkit-box-shadow: 0 0 18px #91bd09; }
+	  to { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
+	}
+
+	@-webkit-keyframes bluePulse {
+	  from { background-color: #007d9a; -webkit-box-shadow: 0 0 9px #333; }
+	  50% { background-color: #2daebf; -webkit-box-shadow: 0 0 18px #2daebf; }
+	  to { background-color: #007d9a; -webkit-box-shadow: 0 0 9px #333; }
+	}
+
+	@-webkit-keyframes redPulse {
+	  from { background-color: #bc330d; -webkit-box-shadow: 0 0 9px #333; }
+	  50% { background-color: #e33100; -webkit-box-shadow: 0 0 58px #e33100; }
+	  to { background-color: #bc330d; -webkit-box-shadow: 0 0 9px #333; }
+	}
+
+	@-webkit-keyframes magentaPulse {
+	  from { background-color: #630030; -webkit-box-shadow: 0 0 9px #333; }
+	  50% { background-color: #a9014b; -webkit-box-shadow: 0 0 18px #a9014b; }
+	  to { background-color: #630030; -webkit-box-shadow: 0 0 9px #333; }
+	}
+
+	@-webkit-keyframes orangePulse {
+	  from { background-color: #d45500; -webkit-box-shadow: 0 0 9px #333; }
+	  50% { background-color: #ff5c00; -webkit-box-shadow: 0 0 18px #ff5c00; }
+	  to { background-color: #d45500; -webkit-box-shadow: 0 0 9px #333; }
+	}
+
+	@-webkit-keyframes yellowPulse {
+	  from { background-color: #fc9200; -webkit-box-shadow: 0 0 9px #333; }
+	  50% { background-color: #ffb515; -webkit-box-shadow: 0 0 18px #ffb515; }
+	  to { background-color: #fc9200; -webkit-box-shadow: 0 0 9px #333; }
+	}
+
+div {
+	border-style:none;
+}
+
+div.title {
+	color:#AAA;
+}
+
+div.parentRow
+{
+	height:18%; 
+	display:flex; 
+	flex-direction: column;
+	padding-bottom:10px;
+	min-height:100px;
+}
+
+div.buttonGroup 
+{
+	flex-direction:row; 
+	height:100%;
+}
+
+button:focus {outline:0;}
+
+div.parentRow button {
+	height:100%;
+	width:24%;
+	border: 0;
+ 	border-radius: 5px;
+	font-size:1.0em;
+}
+
+div.parentRow button.unselected 
+{
+	background-color:#444;
+	color:#AAA;
+}
+
+div.parentRow button H1 {
+	
+	font-size:1.5em;
+	margin: 0px;
+	padding: 0px;
+}
+
+button.red {
+	color:white;
+	background-color: #e33100; 
+}
+
+button.orange {
+	color:white;
+	background-color:#a9014b
+}
+
+button.yellow {
+	color:white;
+	background-color: #fc9200;
+}
+
+button.green {
+	color:white;
+	background-color: #749a02;
+  	-webkit-animation-name:greenPulse;
+  	-webkit-animation-duration: 0s;
+	-webkit-animation-iteration-count: 10;
+}
+
+button.blue {
+	color:white;
+	background-color: #007d9a;
+}
+
+div.fixedButtonBackground
+{
+	display: flex;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,.75);
+	align-items: center;
+  	justify-content: center;
+	visibility: hidden;
+	opacity: 0;
+    transition: opacity .25s ease-in-out;
+}
+
+div.roomSelectBackground
+{
+	display: flex;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(0,0,0,.75);
+	align-items: center;
+  	justify-content: center;
+}
+
+#fixedButton
+{
+	width:50%;
+	height:50%;
+	font-size:2em;
+	
+	color:#FFF;
+	border: 0;
+ 	border-radius: 5px;
+}
+
+</style>
+
+<div class="modal" id="roomSelect" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Join a Room</h5>
+		</div>
+		<div class="modal-body">
+			<form>
+				<div class="form-group">
+				  <label for="recipient-name" class="col-form-label">Room name:</label>
+				  <input type="text" class="form-control" id="roomName">
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" id="joinRoomButton" class="btn btn-primary">Join Room</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+
+<div class="fixedButtonBackground">
+	<button id="fixedButton"></button>
+</div>
+
+<div style="padding:10px;">
+
+<div class="parentRow">
+  <div class="title">Section</div>
+  <div class="buttonGroup" colorclass="red">
+    <button> <div>&nbsp;</div><H1>A</H1><div>Verse</div> </button>
+	<button> <div>&nbsp;</div><H1>B</H1><div>Bridge</div> </button>
+	<button> <div>&nbsp;</div><H1>C</H1><div>Chorus</div> </button>
+	<button> <div>&nbsp;</div><H1>D</H1><div>Interlude</div> </button>
+  </div>
+</div>
+
+<div class="parentRow">
+  <div class="title">Ending</div>
+  <div class="buttonGroup" colorclass="orange">
+	<button> <div>&nbsp;</div><H1>1st</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>2nd</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>Rit</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>^</H1><div>Abrupt</div> </button>
+  </div>
+</div>
+
+<div class="parentRow">
+  <div class="title">Flow</div>
+  <div class="buttonGroup" colorclass="yellow">
+	<button> <div>&nbsp;</div><H1>D.S.</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>D.C.</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>Coda</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>Vamp</H1><div>&nbsp;</div> </button>
+  </div>
+</div>
+
+<div class="parentRow">
+  <div class="title">Solo Trade</div>
+  <div class="buttonGroup" colorclass="green">
+    <button> <div>&nbsp;</div><H1>8</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>4</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>2</H1><div>&nbsp;</div> </button>
+	<button> <div>&nbsp;</div><H1>1</H1><div>&nbsp;</div> </button>
+  </div>
+</div>
+
+<div class="parentRow">
+  <div class="title">Key Change</div>
+  <div class="buttonGroup" colorclass="blue">
+	<button> <div>&nbsp;</div><H1>+1</H1><div>Half step</div> </button>
+	<button> <div>&nbsp;</div><H1>+2</H1><div>Half steps</div> </button>
+	<button> <div>&nbsp;</div><H1>+b</H1><div>Perf 4th</div> </button>
+	<button> <div>&nbsp;</div><H1>+#</H1><div>Perf 5th</div> </button>
+  </div>
+</div>
+
+</div>
+
+<script>
+	var room = null;
+
+	$('#roomSelect').modal('show');
+	$('#roomName').val(localStorage.lastRoom);
+
+	$("#joinRoomButton").click(function()
+	{
+		$('#roomSelect').modal('hide');
+		room = $('#roomName').val();
+		localStorage.lastRoom = room;
+		SendRoomInfo();
+	});
+
+	var ID = 0;
+	$('div.parentRow button').each(function() {
+		ID++;
+		$(this).attr('id', 'B'+ID);
+		$(this).addClass("unselected");
+	});
+
+	$("div.parentRow button").click(function()
+	{
+		console.log("Button click");
+		var btn = $(this);
+		var id = $(this).attr("id");
+		var cls = btn.parent().attr("colorclass");
+		if (btn.hasClass(cls))
+		{
+			UnselectButton();
+			ws.send(JSON.stringify({cmd:"unselect"}));
+		}
+		else {
+			SelectButton(btn);
+			ws.send(JSON.stringify({cmd:"select", id:id}));
+		}
+	});
+
+	$("#fixedButton").click(function()
+	{
+		console.log("fixedbutton click");
+		HideButton();
+		//UnselectButton();
+		//ws.send(JSON.stringify({cmd:"unselect"}));
+	});
+
+	var timerId = 0;
+
+	function SelectButton(btn) 
+	{
+		UnselectButton();
+		console.log("SelectButton()");
+
+		var cls = btn.parent().attr("colorclass");
+		var title = btn.parent().parent().find(".title").html();
+		var text = btn.find("h1").html();
+		var subtext = btn.find("div:eq(1)").html();
+
+		btn.removeClass();
+		btn.addClass(cls);
+	
+		var fixedBtn = $("#fixedButton");
+		fixedBtn.html("<div>" + title + "</div><h1>" + text + "</h1><div>" + subtext + "</div>");
+
+		setTimeout(function() { 
+			console.log("SelectButton() - timer addclass");
+			fixedBtn.addClass(cls);	
+			$(".fixedButtonBackground").css("opacity", "1");
+			$(".fixedButtonBackground").css("visibility", "visible");
+		}, 1);
+
+		timerId = setTimeout(function() { 
+			console.log("SelectButton() - timer hidebuton");
+			HideButton();
+		},3000);
+	}
+	
+	function HideButton()
+	{
+		console.log("HideButton()");
+		clearTimeout(timerId);
+		if ($(".fixedButtonBackground").css("visibility") == "visible")
+		{
+			var fixedBtn = $("#fixedButton");
+			
+
+			$(".fixedButtonBackground").css("opacity", "0");
+			setTimeout(function() { 
+				console.log("HideButton() - timer");
+				$(".fixedButtonBackground").css("visibility","hidden");
+				fixedBtn.removeClass();
+			}, 250);
+		}
+	}
+
+	function UnselectButton()
+	{
+		HideButton();
+		console.log("UnselectButton()");
+		$("div.parentRow button").each(function( index ) {
+			$( this ).removeClass();
+			$(this).addClass("unselected");
+		});
+
+	}
+
+
+
+var url;
+if (window.location.protocol === "https:") {
+    url = "wss:";
+} else {
+    url = "ws:";
+}
+url += "//" + window.location.host;
+
+var isOpen = false;
+var ws = null;
+
+setInterval(CheckConnection, 1000);
+
+function CheckConnection()
+{
+	if (!isOpen)
+	{
+		Connect();
+	}
+}
+
+function Connect()
+{
+	ws = new WebSocket(url);
+
+	ws.onopen = function() {
+		console.log("websock open");
+		isOpen = true;
+		SendRoomInfo();
+	};
+
+	ws.onclose = function() {
+		console.log("websock closed");
+		isOpen = false;
+	};
+
+	ws.onmessage = function (evt) { 
+		var msg = JSON.parse(evt.data);
+		if (msg.cmd == "select")
+		{
+			var id = msg.id;
+			var b = $("#"+id);
+			SelectButton(b);
+		}
+		else if (msg.cmd == "unselect")
+		{
+			UnselectButton();
+		}
+	};
+}
+
+function SendRoomInfo()
+{
+	if (ws && room)
+	{
+		console.log("Select Room: " + room);
+		ws.send(JSON.stringify({cmd:"selectroom", room:room}));
+	}
+}
+
+var noSleep = new NoSleep();
+// Enable wake lock.
+// (must be wrapped in a user input event handler e.g. a mouse or touch handler)
+document.addEventListener('click', function enableNoSleep() {
+  document.removeEventListener('click', enableNoSleep, false);
+  noSleep.enable();
+}, false);
+
+
+</script>
+
+</body>
+</html>
