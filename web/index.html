@@ -260,9 +260,18 @@ div.roomSelectBackground
 
 <script>
 	var room = null;
-
-	$('#roomSelect').modal('show');
-	$('#roomName').val(localStorage.lastRoom);
+	
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	if (urlParams.has("room")) {
+		room = urlParams.get("room");
+		localStorage.lastRoom = room;
+		SendRoomInfo();
+	}
+	else {
+		$('#roomSelect').modal('show');
+		$('#roomName').val(localStorage.lastRoom);
+	}
 
 	$("#joinRoomButton").click(function()
 	{
