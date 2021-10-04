@@ -1,5 +1,5 @@
 {
-  "name": "musicmanapp",
+  "name": "BandSync",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,15 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "author": "Chris Miller",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
     "http": "0.0.0",
-    "ws": "^7.2.3"
-  },
-  "devDependencies": {
-    "express": "^4.17.1",
+    "ws": "^7.5.5",
     "fs": "0.0.1-security",
     "https": "^1.0.0"
   }
