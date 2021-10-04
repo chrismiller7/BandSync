@@ -57,7 +57,8 @@ function OnConnection(wsclient, msg) {
             obj.roomcount = GetClientsInRoom(wsclient.room).length;
             console.log(obj);
             wsclient.send(JSON.stringify(obj));
-        } else if (wsclient.room != null) {
+        } 
+        else if (wsclient.room != null) {
             SendToAll(msg, wsclient);
         }
     });
